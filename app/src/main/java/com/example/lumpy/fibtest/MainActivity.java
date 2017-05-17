@@ -41,14 +41,15 @@ public class MainActivity extends AppCompatActivity {
                 //Check if the done button has been pressed
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
 
-                    displayFibonacci(calculateFibonacci());
-
                     //Removes keyboard after number is entered
                     View view = MainActivity.this.getCurrentFocus();
                     if (view != null) {
                         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                         imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
                     }
+
+                    displayFibonacci(calculateFibonacci());
+
                     return true;
                 }
                 return false;
@@ -59,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
 
     //Calculates the Fibonacci value
     private BigInteger calculateFibonacci() {
-        //Really slow version of fib
+        //Matrix power calculation
         EditText editText = (EditText) findViewById(R.id.fibonacciToCalculate);
 
         //Check integer values with try catch
@@ -71,14 +72,8 @@ public class MainActivity extends AppCompatActivity {
 
             //Begin algorithm
             BigInteger a = BigInteger.ZERO;
-            BigInteger b = BigInteger.ONE;
-            BigInteger c = BigInteger.ZERO;
-
-            for (int i = 0; i < nthFib; i++) {
-                c = a.add(b);
-                a = b;
-                b = c;
-            }
+            BigInteger[] matrix = {BigInteger.ONE, BigInteger.ONE, BigInteger.ONE, BigInteger.ZERO};
+            a = matrixPow(matrix, nthFib)[1];
 
             //Show Calculation time
             long totalTime = (System.nanoTime() - startTime) / 1000000;
@@ -99,4 +94,29 @@ public class MainActivity extends AppCompatActivity {
                 R.id.fibonacciResult);
         resultTextView.setText("" + nthFibonacci);
     }
+
+    //matrix power function for bigintegers
+    private static BigInteger[] matrixPow(BigInteger[] matrix, int n) {
+
+        BigInteger[] result = {BigInteger.ONE, BigInteger.ZERO, BigInteger.ZERO, BigInteger.ONE};
+        while (n != 0) {  // Exponentiation by squaring
+            if (n % 2 != 0)
+                result = matrixMultiply(result, matrix);
+            n /= 2;
+            matrix = matrixMultiply(matrix, matrix);
+        }
+        return result;
+    }
+
+    // Multiplies two matrices.
+    private static BigInteger[] matrixMultiply(BigInteger[] x, BigInteger[] y) {
+        return new BigInteger[] {
+                (x[0].multiply(y[0])).add((x[1].multiply(y[2]))),
+                (x[0].multiply(y[1])).add((x[1].multiply(y[3]))),
+                (x[2].multiply(y[0])).add((x[3].multiply(y[2]))),
+                (x[2].multiply(y[1])).add((x[3].multiply(y[3])))
+
+        };
+    }
+
 }
