@@ -1,4 +1,4 @@
-package com.example.lumpy.fibtest;
+package fibtest.example.lumpy.fibtest;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;

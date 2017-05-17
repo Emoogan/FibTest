@@ -1,4 +1,4 @@
-package com.example.lumpy.fibtest;
+package fibtest.example.lumpy.fibtest;
 
 import org.junit.Test;
 

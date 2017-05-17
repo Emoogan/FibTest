@@ -1,4 +1,4 @@
-package com.example.lumpy.fibtest;
+package lumpy.fibtest;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -13,6 +13,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.math.BigInteger;
+
+import lumpy.fibtest.R;
 
 public class MainActivity extends AppCompatActivity {
 
